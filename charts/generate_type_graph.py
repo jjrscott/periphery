@@ -24,10 +24,7 @@ def main():
 
     graph = dict()
 
-    print("""digraph {
-    rankdir = LR;
-    node [ shape=rect, style=filled, color="#00000010" , pencolor=black];
-    graph [bgcolor = "#00000010", color="#00000030"];
+    print("""flowchart LR
 """)
 
     export_nodes(nodes, cookie)
@@ -36,9 +33,9 @@ def main():
         if tail_id not in cookie.declaration_for_usr: continue
         for head_id in sorted(cookie.references[tail_id]):
             if tail_id == head_id or head_id not in cookie.declaration_for_usr: continue
-            print(f'"{tail_id}" -> "{head_id}";')
+            print(f'{identifier(tail_id)} --> {identifier(head_id)}')
 
-    print("}")
+    print("")
 
 
 def export_nodes(node, cookie):
@@ -50,12 +47,11 @@ def export_nodes(node, cookie):
         label = nodeLabel(declaration)
         subnodes = node[canonical_usr]
         if len(subnodes) > 0:
-            print(f'subgraph cluster_{identifier(canonical_usr)} {{')
-            print(f'"{canonical_usr}" [label="{label}", color="#0000FF20"];')
+            print(f'subgraph {identifier(canonical_usr)}[{label}]')
             export_nodes(subnodes, cookie)
-            print("}")
+            print('end')
         else:
-            print(f'"{canonical_usr}" [label="{label}"];')
+            print(f'{identifier(canonical_usr)}[{label}]')
 
 
 

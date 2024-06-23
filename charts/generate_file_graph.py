@@ -34,10 +34,7 @@ def main():
                 if nodeLabel(declaration, args.path_root) == nodeLabel(referenced_declaration, args.path_root): continue
                 graph[nodeLabel(declaration, args.path_root)].add(nodeLabel(referenced_declaration, args.path_root))
 
-    print("""digraph {
-    rankdir = LR;
-    node [ shape=rect, style=filled, color=white , pencolor=black];
-    graph [bgcolor = "#00000010", color="#00000030"];
+    print("""flowchart LR
 """)
 
     clusters = set()
@@ -58,23 +55,23 @@ def main():
             cluster_id = list()
             for moo in foo:
                 cluster_id.append(identifier(moo))
-                print(f'subgraph cluster_{"_".join(cluster_id)} {{ label="{moo}";')
+                print(f'subgraph {"_".join(cluster_id)}[{moo}]')
 
         if tail_id not in clusters:
             label = re.sub(r'.folder$', '...', node)
-            print(f'"{tail_id}" [label="{label}"];')
+            print(f'{identifier(tail_id)}[{label}]')
 
         if args.cluster:
             for moo in foo:
-                print(f"}}")
+                print('end')
 
     for tail_id in sorted(graph):
         for head_id in sorted(graph[tail_id]):
             if tail_id.startswith(head_id): continue
             # if head_id.startswith(tail_id): continue
-            print(f'"{tail_id}" -> "{head_id}";')
+            print(f'{identifier(tail_id)} --> {identifier(head_id)}')
 
-    print("}")
+    print('')
 
 
 skipped_locations = [
