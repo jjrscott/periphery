@@ -53,6 +53,14 @@ final class Scan {
             let asterisk = colorize("*", .boldGreen)
             logger.info("\(asterisk) Analyzing...")
         }
+        
+        if let graphPath = configuration.exportGraph {
+            let json = SourceGraphExporter(graph: graph).describeGraph()
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+            let data = try encoder.encode(json)
+            try data.write(to: graphPath.url)
+        }
 
         try SourceGraphMutatorRunner.perform(graph: graph)
         logger.endInterval(analyzeInterval)

@@ -127,6 +127,9 @@ public final class Configuration {
 
     @Setting(key: "write_baseline", defaultValue: nil)
     public var writeBaseline: FilePath?
+    
+    @Setting(key: "export_graph", defaultValue: nil)
+    public var exportGraph: FilePath?
 
     // Non user facing.
     public var guidedSetup: Bool = false

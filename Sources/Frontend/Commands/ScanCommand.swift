@@ -128,6 +128,9 @@ struct ScanCommand: FrontendCommand {
 
     @Option(help: "Baseline file path where results are written. Pass the same path to '--baseline' in subsequent scans to exclude the results recorded in the baseline.")
     var writeBaseline: FilePath?
+    
+    @Option(help: "Export dependancy graph as JSON to file path")
+    var exportGraph: FilePath?
 
     private static let defaultConfiguration = Configuration()
 
@@ -182,6 +185,7 @@ struct ScanCommand: FrontendCommand {
         configuration.apply(\.$jsonPackageManifestPath, jsonPackageManifestPath)
         configuration.apply(\.$baseline, baseline)
         configuration.apply(\.$writeBaseline, writeBaseline)
+        configuration.apply(\.$exportGraph, exportGraph)
 
         try scanBehavior.main { project in
             try Scan().perform(project: project)

@@ -1,5 +1,5 @@
 final class Reference {
-    enum Role {
+    enum Role: String, RawRepresentable, CaseIterable {
         case varType
         case returnType
         case parameterType
